@@ -5,19 +5,16 @@ import {initChatSidebar} from './scripts/components/ChatSidebar'
 import {initChatMessage} from './scripts/components/ChatMessage'
 import {find} from './scripts/utils/JqueryWrappers'
 import {processMessage} from './scripts/processors/MessageProcessor'
-import {createUploadFolder, getSettings, registerSetting} from './scripts/utils/Settings'
-
-const registerSettings = () => {
-  const settings = getSettings()
-  settings.forEach((setting) => registerSetting(setting))
-}
+import {createUploadFolder, registerSettings} from './scripts/utils/Settings'
 
 Hooks.once('init', async () => {
+  console.log('chat-images | initializing...')
   registerSettings()
   await createUploadFolder()
 })
 
 Hooks.on('renderSidebarTab', (_0: never, sidebar: JQuery) => {
+  console.debug('sidebar')
   const sidebarElement: HTMLElement | null = sidebar[0]
   if (!sidebarElement) return
 

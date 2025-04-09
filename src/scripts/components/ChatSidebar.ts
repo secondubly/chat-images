@@ -51,7 +51,7 @@ const emptyChatEventHandler = (sidebar: JQuery) => async (evt: KeyboardEvent) =>
 
   const messageData = {
     content: messageTemplate(imageQueue),
-    type: CONST.CHAT_MESSAGE_TYPES.OOC || 1,
+    type: CONST.CHAT_MESSAGE_STYLES.OOC || 1,
     user: (game as Game).user,
   }
   await ChatMessage.create(messageData)

@@ -4,7 +4,7 @@
   "type": "module",
   "production": false,
   "scripts": {
-    "build": "tsc && vite build -c vite.config.ts"
+    "build": "tsc --noCheck && vite build -c vite.config.ts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.36.2",

@@ -2,7 +2,7 @@ import {ORIGIN_FOLDER, randomString, t, userCanUpload} from '../utils/Utils'
 import {addClass, append, create, find, on, remove, removeClass} from '../utils/JqueryWrappers'
 import imageCompression from 'browser-image-compression'
 import {getUploadingStates} from '../components/Loader'
-import {getSetting} from '../utils/Settings'
+import {getUploadLocation} from '../utils/Settings'
 
 export type SaveValueType = {
   type?: string,
@@ -51,7 +51,7 @@ const uploadImage = async (saveValue: SaveValueType): Promise<string> => {
     const compressedImage = await imageCompression(saveValue.file as File, {maxSizeMB: 1.5, useWebWorker: true, alwaysKeepResolution: true})
     const newImage = new File([compressedImage as File], newName, {type: saveValue.type})
 
-    const uploadLocation = getSetting('uploadLocation')
+    const uploadLocation = getUploadLocation()
     // @ts-ignore
     const imageLocation = await FilePicker.upload(ORIGIN_FOLDER, uploadLocation, newImage, {}, {notify: false})
 

@@ -10,6 +10,7 @@ const everyWordToUpperCase = (sentence: string) => sentence
 
 export default defineConfig({
   build: {
+    target: 'esnext',
     watch: isModuleInProductionMode ? null : {},
     sourcemap: isModuleInProductionMode ? false : 'inline',
     lib: {

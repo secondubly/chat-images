@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    "types": [
-      "@league-of-foundry-developers/foundry-vtt-types"
-    ],
+    "types": ["fvtt-types"],
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -10,7 +8,7 @@
       "ESNext",
       "DOM"
     ],
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "strict": true,
     "sourceMap": true,
     "resolveJsonModule": true,
@@ -24,6 +22,6 @@
     "strictNullChecks": true
   },
   "include": [
-    "src"
+    "src", "src/**/*.d.ts", "src/**/*.ts",
   ]
 }

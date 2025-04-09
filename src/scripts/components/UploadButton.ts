@@ -1,7 +1,7 @@
 import {addClass, append, create, find, on, trigger} from '../utils/JqueryWrappers'
 import {t, userCanUpload} from '../utils/Utils'
 import {processImageFiles} from '../processors/FileProcessor'
-import {getSetting} from '../utils/Settings'
+import {getUploadButton} from '../utils/Settings'
 
 const createUploadButton = (): JQuery => create(`<a id="ci-upload-image" title="${t('uploadButtonTitle')}"><i class="fas fa-images"></i></a>`)
 
@@ -26,7 +26,7 @@ const setupEvents = (uploadButton: JQuery, hiddenUploadInput: JQuery, sidebar: J
 }
 
 export const initUploadButton = (sidebar: JQuery) => {
-  if (!getSetting('uploadButton')) return
+  if (!getUploadButton()) return
 
   const controlButtons: JQuery = find('.control-buttons', sidebar)
   const uploadButton: JQuery = createUploadButton()
