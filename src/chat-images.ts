@@ -14,7 +14,6 @@ Hooks.once('init', async () => {
 })
 
 Hooks.on('renderSidebarTab', (_0: never, sidebar: JQuery) => {
-  console.debug('sidebar')
   const sidebarElement: HTMLElement | null = sidebar[0]
   if (!sidebarElement) return
 

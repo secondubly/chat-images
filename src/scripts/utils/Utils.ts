@@ -19,3 +19,18 @@ export const userCanUpload = async (silent = false): Promise<boolean> => {
 
   return true
 }
+
+export const isVideo = (src: string) => {
+  const re = /(?:\.([^.]+))?$/
+  const ext = re.exec(src)?.[1]
+  return ext === 'webm' || ext === 'mp4'
+}
+
+export const getVideoType = (imgSrc: string) => {
+  if (imgSrc.endsWith('webm')) {
+    return 'video/webm'
+  } else if (imgSrc.endsWith('mp4')) {
+    return 'video/mp4'
+  }
+  return 'video/mp4'
+}
