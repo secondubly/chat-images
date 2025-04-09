@@ -25,29 +25,39 @@ const setupEvents = (uploadButton: JQuery, hiddenUploadInput: JQuery, sidebar: J
   on(uploadButton, 'click', uploadButtonClickEventHandler)
 }
 
-export const initUploadButton = (sidebar: JQuery) => {
-  if (!getUploadButton()) return
+export const initUploadButton = async (sidebar: JQuery, retries = 3): Promise<void> => {
+  try {
+    const uploadButtonAvailable = getUploadButton()
+    if (!getUploadButton()) return
 
-  const controlButtons: JQuery = find('.control-buttons', sidebar)
-  const uploadButton: JQuery = createUploadButton()
-  const hiddenUploadInput: JQuery = createHiddenUploadInput()
+    const controlButtons: JQuery = find('.control-buttons', sidebar)
+    const uploadButton: JQuery = createUploadButton()
+    const hiddenUploadInput: JQuery = createHiddenUploadInput()
 
-  if (!userCanUpload(true)) return
+    if (!userCanUpload(true)) return
 
-  if (controlButtons[0]) {
-    addClass(controlButtons, 'ci-control-buttons-gm')
-    append(controlButtons, uploadButton)
-    append(controlButtons, hiddenUploadInput)
-  } else {
-    // Players don't have buttons
-    const chatControls: JQuery = find('#chat-controls', sidebar)
-    const newControlButtons = create('<div class="ci-control-buttons-p"></div>')
+    if (controlButtons[0]) {
+      addClass(controlButtons, 'ci-control-buttons-gm')
+      append(controlButtons, uploadButton)
+      append(controlButtons, hiddenUploadInput)
+    } else {
+      // Players don't have buttons
+      const chatControls: JQuery = find('#chat-controls', sidebar)
+      const newControlButtons = create('<div class="ci-control-buttons-p"></div>')
 
-    append(newControlButtons, uploadButton)
-    append(newControlButtons, hiddenUploadInput)
-    append(chatControls, newControlButtons)
+      append(newControlButtons, uploadButton)
+      append(newControlButtons, hiddenUploadInput)
+      append(chatControls, newControlButtons)
+    }
+    setupEvents(uploadButton, hiddenUploadInput, sidebar)
+  } catch (e: unknown) {
+    if (retries > 0) {
+      // wait a few seconds and try again
+      setTimeout(() => initUploadButton(sidebar, retries - 1), 3000)
+      return
+    } else {
+      throw Error((e as Error).message)
+    }
   }
-
-  setupEvents(uploadButton, hiddenUploadInput, sidebar)
 }
 

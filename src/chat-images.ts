@@ -2,18 +2,20 @@ import './styles/chat-images.scss'
 import {initUploadArea} from './scripts/components/UploadArea'
 import {initUploadButton} from './scripts/components/UploadButton'
 import {initChatSidebar} from './scripts/components/ChatSidebar'
-import {initChatMessage} from './scripts/components/ChatMessage'
+import {ChatHandler} from './scripts/components/ChatHandler'
 import {find} from './scripts/utils/JqueryWrappers'
-import {processMessage} from './scripts/processors/MessageProcessor'
+// import {processMessage} from './scripts/processors/MessageProcessor'
 import {createUploadFolder, registerSettings} from './scripts/utils/Settings'
+// import {ChatResolver} from './scripts/components/ChatResolver'
 
 Hooks.once('init', async () => {
   console.log('chat-images | initializing...')
-  registerSettings()
+  await registerSettings()
   await createUploadFolder()
 })
 
 Hooks.on('renderSidebarTab', (_0: never, sidebar: JQuery) => {
+  console.log('chat-images | render sidebar tab...')
   const sidebarElement: HTMLElement | null = sidebar[0]
   if (!sidebarElement) return
 
@@ -29,14 +31,9 @@ Hooks.on('renderChatMessage', (_0: never, chatMessage: JQuery) => {
   const ciMessage = find('.ci-message-image', chatMessage)
   if (!ciMessage[0]) return
 
-  initChatMessage(chatMessage)
+  ChatHandler.initChatMessage(chatMessage)
 })
 
-Hooks.on('preCreateChatMessage', (chatMessage: any, userOptions: never, messageOptions: any) => {
-  const processedMessage: string = processMessage(chatMessage.content)
-  if (chatMessage.content === processedMessage) return
-
-  chatMessage.content = processedMessage
-  chatMessage._source.content = processedMessage
-  messageOptions.chatBubble = false
+Hooks.on('preCreateChatMessage', (chatMessage: ChatMessage, html: JQuery, messageData: any) => {
+  ChatHandler.onPreCreateChatMessage(chatMessage)
 })

@@ -39,7 +39,6 @@ export class MediaPopout extends ImagePopout {
       data.videoType = getVideoType(data.video)
     }
 
-    debugger
     return data
   }
 

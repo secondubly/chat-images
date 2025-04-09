@@ -1,7 +1,8 @@
 import {ORIGIN_FOLDER, localize} from './Utils'
+import {getGame} from './Utils'
 
 export const createUploadFolder = async (uploadLocation?: string) => {
-  console.log('chat-images | createUploadFolder')
+  console.debug('chat-images | create upload folder...')
   const location: string = uploadLocation || getUploadLocation()
   try {
     const folderLocation = await FilePicker.browse(ORIGIN_FOLDER, location)
@@ -11,7 +12,10 @@ export const createUploadFolder = async (uploadLocation?: string) => {
   }
 }
 
-export const setSetting = (key: string, value: any) => {
+
+export const setSetting = async (key: string, value: string | boolean) => {
+  const game = await getGame()
+
   switch (key) {
     case 'uploadLocation':
       game.settings.set('chat-images', 'uploadLocation', value)
@@ -24,8 +28,9 @@ export const setSetting = (key: string, value: any) => {
   }
 }
 
-export const registerSettings = function() {
-  console.log('chat-images | registerSettings')
+export const registerSettings = async () => {
+  console.debug('chat-images | register settings...')
+  const game = await getGame()
   game.settings.register('chat-images', 'uploadButton', {
     name: localize('uploadButton'),
     hint: localize('uploadButtonHint'),
